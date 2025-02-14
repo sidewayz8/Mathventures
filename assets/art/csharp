@@ -1,0 +1,66 @@
+using UnityEngine;
+using UnityEngine.Networking;
+using System.Collections;
+
+// 1) Define a C# class that matches the JSON structure:
+[System.Serializable]
+public class QuestionData
+{
+    public string question;
+    public int correctAnswer;
+}
+
+[System.Serializable]
+public class ProgressData
+{
+    public string userId;
+    public int chapter;
+    public int points;
+}
+
+
+public class QuizManager : MonoBehaviour
+{
+    // URL of your backend endpoint
+    private string fetchQuestionUrl = "http://localhost:3000/quiz/random";
+
+    // Start is called when the script instance is being loaded
+    void Start()
+    {
+        // Example: Fetch a question immediately on start
+        StartCoroutine(FetchQuestChallenge());
+    }
+
+    // A coroutine that fetches question data from the server
+    IEnumerator FetchQuestChallenge()
+    {
+        using (UnityWebRequest www = UnityWebRequest.Get(fetchQuestionUrl))
+        {
+            // 2) Send the request
+            yield return www.SendWebRequest();
+
+            // 3) Check for success/failure
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                // 4) Extract the JSON text
+                string json = www.downloadHandler.text;
+                Debug.Log("Received JSON: " + json);
+
+                // 5) Parse JSON into your C# class
+                QuestionData questionData = JsonUtility.FromJson<QuestionData>(json);
+
+                // 6) Update your UI or state with the fetched data
+                // e.g., Display questionData.question on screen
+                //        Store questionData.correctAnswer for checking
+                Debug.Log("Question: " + questionData.question);
+                Debug.Log("Correct Answer: " + questionData.correctAnswer);
+            }
+            else
+            {
+                // 7) Handle error
+                Debug.LogError("Error fetching question: " + www.error);
+            }
+        }
+    }
+}
+

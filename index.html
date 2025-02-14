@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathventures - A Magical Math Journey</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+        }
+        
+        #gameContainer {
+            width: 900px;
+            height: 600px;
+            margin: 20px auto;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+        
+        #unityContainer {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .loading h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .progress {
+            width: 200px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            transition: width 0.3s ease;
+        }
+        
+        .title {
+            text-align: center;
+            margin: 20px;
+            font-size: 36px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .instructions {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">Welcome to Mathventures!</h1>
+    
+    <div class="instructions">
+        <h2>How to Play:</h2>
+        <p>Embark on a magical journey through enchanted realms while mastering math!</p>
+        <p>Use arrow keys to move, spacebar to jump, and click to select answers.</p>
+        <p>Complete challenges to unlock new realms and magical abilities!</p>
+    </div>
+    
+    <div id="gameContainer">
+        <div id="unityContainer"></div>
+        <div class="loading">
+            <h2>Loading your magical adventure...</h2>
+            <div class="progress">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+        var gameInstance = UnityLoader.instantiate("unityContainer", "Build/mathventures.json", {
+            onProgress: function(gameInstance, progress) {
+                document.querySelector('.progress-bar').style.width = (progress * 100) + '%';
+                if (progress === 1) {
+                    document.querySelector('.loading').style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

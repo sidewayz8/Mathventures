@@ -1,0 +1,26 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class MainMenuController : MonoBehaviour
+{
+    public void StartQuest()
+    {
+        SceneManager.LoadScene("MagicalQuest");
+    }
+
+    public void Practice()
+    {
+        SceneManager.LoadScene("Practice");
+    }
+
+    public void Quiz()
+    {
+        SceneManager.LoadScene("Quiz");
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+}
+
